@@ -1,11 +1,11 @@
-package com.andersenlab.shop.service.admin;
+package com.andersenlab.shop.service.user;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.ICurrencyDao;
+import com.andersenlab.shop.repository.CurrencyRepository;
 import com.andersenlab.shop.dto.CurrencyDto;
 import com.andersenlab.shop.model.Currency;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.ICurrencyService;
+import com.andersenlab.shop.service.CurrencyService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class CurrencyServiceAdmin implements ICurrencyService {
+public class CurrencyServiceImpl implements CurrencyService {
 
-    ICurrencyDao currencyDao;
+    CurrencyRepository currencyDao;
     ExtendedModelMapper modelMapper;
 
     @Logging
@@ -31,24 +31,24 @@ public class CurrencyServiceAdmin implements ICurrencyService {
     @Logging
     @Override
     public CurrencyDto getById(Long id) {
-        return modelMapper.map(currencyDao.findById(id), CurrencyDto.class);
+        return null;
     }
 
     @Logging
     @Override
     public void create(CurrencyDto currencyDto) {
-        currencyDao.save(modelMapper.map(currencyDto, Currency.class));
+
     }
 
     @Logging
     @Override
     public void edit(CurrencyDto currencyDto) {
-        currencyDao.save(modelMapper.map(currencyDto, Currency.class));
+
     }
 
     @Logging
     @Override
     public void delete(CurrencyDto currencyDto) {
-        currencyDao.delete(modelMapper.map(currencyDto, Currency.class));
+
     }
 }

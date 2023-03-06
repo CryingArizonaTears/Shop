@@ -1,9 +1,9 @@
-package com.andersenlab.shop.dao;
+package com.andersenlab.shop.repository;
 
 import com.andersenlab.shop.model.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IProductDao extends CrudRepository<Product, Long> {
+public interface ProductRepository extends CrudRepository<Product, Long> {
 }

@@ -2,7 +2,7 @@ package com.andersenlab.shop.controller.all;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.ProductDto;
-import com.andersenlab.shop.service.IProductService;
+import com.andersenlab.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/product")
+@RequestMapping(value = "/products")
 public class ProductController {
 
     @Autowired
-    public ProductController(@Qualifier("productService") IProductService productService) {
+    public ProductController(@Qualifier("productService") ProductService productService) {
         this.productService = productService;
     }
 
-    private final IProductService productService;
+    private final ProductService productService;
 
     @Logging
     @GetMapping

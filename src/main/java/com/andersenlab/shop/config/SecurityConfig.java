@@ -2,7 +2,7 @@ package com.andersenlab.shop.config;
 
 
 import com.andersenlab.shop.security.CustomUserDetailsService;
-import com.andersenlab.shop.security.filter.JwtFilter2;
+import com.andersenlab.shop.security.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private JwtFilter2 jwtFilter2;
+    private JwtFilter jwtFilter;
     @Autowired
     private CustomUserDetailsService jpaUserDetailsService;
 
@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter2, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(jpaUserDetailsService)
                 .build();
     }

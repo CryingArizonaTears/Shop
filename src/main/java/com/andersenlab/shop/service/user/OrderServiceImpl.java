@@ -1,17 +1,16 @@
 package com.andersenlab.shop.service.user;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IBucketDao;
-import com.andersenlab.shop.dao.ICurrencyDao;
-import com.andersenlab.shop.dao.IOrderDao;
+import com.andersenlab.shop.repository.CurrencyRepository;
+import com.andersenlab.shop.repository.OrderRepository;
 import com.andersenlab.shop.dto.BucketDto;
 import com.andersenlab.shop.dto.OrderDto;
 import com.andersenlab.shop.dto.UserProfileDto;
 import com.andersenlab.shop.model.Currency;
 import com.andersenlab.shop.model.Order;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IOrderService;
-import com.andersenlab.shop.service.IUserAuthenticationService;
+import com.andersenlab.shop.service.OrderService;
+import com.andersenlab.shop.service.UserAuthenticationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -26,13 +25,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class OrderService implements IOrderService {
+public class OrderServiceImpl implements OrderService {
 
-    IOrderDao orderDao;
+    OrderRepository orderDao;
     ExtendedModelMapper modelMapper;
-    IBucketDao bucketDao;
-    ICurrencyDao currencyDao;
-    IUserAuthenticationService userAuthenticationService;
+    CurrencyRepository currencyDao;
+    UserAuthenticationService userAuthenticationService;
 
     @Logging
     @Override

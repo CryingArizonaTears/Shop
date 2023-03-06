@@ -2,7 +2,7 @@ package com.andersenlab.shop.controller.admin;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.WarehouseDto;
-import com.andersenlab.shop.service.IWarehouseService;
+import com.andersenlab.shop.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/admin/warehouse")
+@RequestMapping(value = "/admin/warehouses")
 public class WarehouseController {
-    private final IWarehouseService warehouseService;
+    private final WarehouseService warehouseService;
 
     @GetMapping
     public ResponseEntity<List<WarehouseDto>> getAll() {

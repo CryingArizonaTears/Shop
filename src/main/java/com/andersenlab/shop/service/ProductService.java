@@ -4,7 +4,7 @@ import com.andersenlab.shop.dto.ProductDto;
 
 import java.util.List;
 
-public interface IProductService {
+public interface ProductService {
 
     List<ProductDto> getAll();
     ProductDto getById(Long id);

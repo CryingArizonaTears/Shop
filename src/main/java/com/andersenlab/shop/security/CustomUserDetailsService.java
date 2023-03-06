@@ -1,6 +1,6 @@
 package com.andersenlab.shop.security;
 
-import com.andersenlab.shop.service.IUserAuthenticationService;
+import com.andersenlab.shop.service.UserAuthenticationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    IUserAuthenticationService userAuthenticationService;
+    UserAuthenticationService userAuthenticationService;
     ModelMapper modelMapper;
 
     @Override

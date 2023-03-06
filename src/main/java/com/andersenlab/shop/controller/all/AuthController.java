@@ -4,8 +4,8 @@ import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.UserCredentialsDto;
 import com.andersenlab.shop.dto.UserProfileDto;
 import com.andersenlab.shop.security.filter.TokenProvider;
-import com.andersenlab.shop.service.IUserAuthenticationService;
-import com.andersenlab.shop.service.IUserService;
+import com.andersenlab.shop.service.UserAuthenticationService;
+import com.andersenlab.shop.service.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    public AuthController(@Qualifier("userService") IUserService userService, IUserAuthenticationService userAuthenticationService, TokenProvider tokenprovider) {
+    public AuthController(@Qualifier("userService") UserService userService, UserAuthenticationService userAuthenticationService, TokenProvider tokenprovider) {
         this.userService = userService;
         this.userAuthenticationService = userAuthenticationService;
         this.tokenProvider = tokenprovider;
     }
 
-    IUserService userService;
-    IUserAuthenticationService userAuthenticationService;
+    UserService userService;
+    UserAuthenticationService userAuthenticationService;
     TokenProvider tokenProvider;
 
     @Logging

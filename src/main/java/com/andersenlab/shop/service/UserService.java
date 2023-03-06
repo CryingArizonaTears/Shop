@@ -6,7 +6,7 @@ import com.andersenlab.shop.dto.UserProfileDto;
 import java.util.List;
 
 
-public interface IUserService {
+public interface UserService {
 
     List<UserProfileDto> getAll();
 

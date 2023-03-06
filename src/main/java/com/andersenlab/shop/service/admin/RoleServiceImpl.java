@@ -1,11 +1,11 @@
 package com.andersenlab.shop.service.admin;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IRoleDao;
+import com.andersenlab.shop.repository.RoleRepository;
 import com.andersenlab.shop.dto.RoleDto;
 import com.andersenlab.shop.model.Role;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IRoleService;
+import com.andersenlab.shop.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class RoleService implements IRoleService {
+public class RoleServiceImpl implements RoleService {
 
-    IRoleDao roleDao;
+    RoleRepository roleDao;
     ExtendedModelMapper modelMapper;
 
     @Logging

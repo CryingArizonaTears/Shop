@@ -2,7 +2,7 @@ package com.andersenlab.shop.controller.admin;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.RoleDto;
-import com.andersenlab.shop.service.IRoleService;
+import com.andersenlab.shop.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/admin/role")
+@RequestMapping(value = "/admin/roles")
 public class RoleController {
 
-    private final IRoleService roleService;
+    private final RoleService roleService;
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")

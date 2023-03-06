@@ -4,7 +4,7 @@ import com.andersenlab.shop.dto.CurrencyDto;
 
 import java.util.List;
 
-public interface ICurrencyService {
+public interface CurrencyService {
 
     List<CurrencyDto> getAll();
     CurrencyDto getById(Long id);

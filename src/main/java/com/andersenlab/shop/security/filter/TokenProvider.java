@@ -1,9 +1,9 @@
 package com.andersenlab.shop.security.filter;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -29,14 +29,10 @@ public class TokenProvider {
                 .compact();
     }
 
+    @SneakyThrows
     public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-//            log.error("Method: validateToken, выходящий: " + expEx.toString());
-        }
-        return false;
+        Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+        return true;
     }
 
     public String getLoginFromToken(String token) {

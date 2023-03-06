@@ -4,7 +4,7 @@ import com.andersenlab.shop.dto.OrderDto;
 
 import java.util.List;
 
-public interface IOrderService {
+public interface OrderService {
 
     List<OrderDto> getAll();
     List<OrderDto> getAllByUserId(Long id);

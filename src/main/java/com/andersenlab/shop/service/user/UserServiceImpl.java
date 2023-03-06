@@ -1,18 +1,19 @@
 package com.andersenlab.shop.service.user;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IBucketDao;
-import com.andersenlab.shop.dao.IUserCredentialsDao;
-import com.andersenlab.shop.dao.IUserProfileDao;
+import com.andersenlab.shop.repository.BucketRepository;
+import com.andersenlab.shop.repository.UserCredentialsRepository;
+import com.andersenlab.shop.repository.UserProfileRepository;
 import com.andersenlab.shop.dto.UserCredentialsDto;
 import com.andersenlab.shop.dto.UserProfileDto;
 import com.andersenlab.shop.model.Bucket;
 import com.andersenlab.shop.model.Role;
 import com.andersenlab.shop.model.UserCredentials;
 import com.andersenlab.shop.model.UserProfile;
-import com.andersenlab.shop.service.IRoleService;
-import com.andersenlab.shop.service.IUserAuthenticationService;
-import com.andersenlab.shop.service.IUserService;
+import com.andersenlab.shop.service.RoleService;
+import com.andersenlab.shop.service.UserAuthenticationService;
+import com.andersenlab.shop.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,14 +27,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
     static final String BASED_USER_ROLE_NAME = "ROLE_USER";
-    IUserProfileDao userProfileDao;
-    IBucketDao bucketDao;
-    IUserCredentialsDao userCredentialsDao;
+    UserProfileRepository userProfileDao;
+    BucketRepository bucketDao;
+    UserCredentialsRepository userCredentialsDao;
     ModelMapper modelMapper;
-    IUserAuthenticationService authenticationService;
-    IRoleService roleService;
+    UserAuthenticationService authenticationService;
+    RoleService roleService;
     PasswordEncoder passwordEncoder;
 
     @Logging
@@ -48,6 +49,7 @@ public class UserService implements IUserService {
         return modelMapper.map(userProfileDao.findById(authenticationService.getCurrent().getId()).get(), UserProfileDto.class);
     }
 
+    @Transactional
     @Logging
     @Override
     public void create(UserProfileDto userProfileDto) {

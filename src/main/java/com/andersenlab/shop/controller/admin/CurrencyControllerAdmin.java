@@ -2,7 +2,7 @@ package com.andersenlab.shop.controller.admin;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.CurrencyDto;
-import com.andersenlab.shop.service.ICurrencyService;
+import com.andersenlab.shop.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/admin/currency")
+@RequestMapping(value = "/admin/currencies")
 public class CurrencyControllerAdmin {
 
     @Autowired
-    public CurrencyControllerAdmin(@Qualifier("currencyServiceAdmin") ICurrencyService currencyService) {
+    public CurrencyControllerAdmin(@Qualifier("currencyServiceAdmin") CurrencyService currencyService) {
         this.currencyService = currencyService;
     }
 
-    private final ICurrencyService currencyService;
+    private final CurrencyService currencyService;
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")

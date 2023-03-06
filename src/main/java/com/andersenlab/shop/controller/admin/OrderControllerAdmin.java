@@ -2,7 +2,7 @@ package com.andersenlab.shop.controller.admin;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.OrderDto;
-import com.andersenlab.shop.service.IOrderService;
+import com.andersenlab.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/admin/order")
+@RequestMapping(value = "/admin/orders")
 public class OrderControllerAdmin {
 
     @Autowired
-    public OrderControllerAdmin(@Qualifier("orderServiceAdmin") IOrderService orderService) {
+    public OrderControllerAdmin(@Qualifier("orderServiceAdmin") OrderService orderService) {
         this.orderService = orderService;
     }
 
-    private final IOrderService orderService;
+    private final OrderService orderService;
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")

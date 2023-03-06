@@ -1,16 +1,17 @@
 package com.andersenlab.shop.service.admin;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IBucketDao;
-import com.andersenlab.shop.dao.IUserCredentialsDao;
-import com.andersenlab.shop.dao.IUserProfileDao;
+import com.andersenlab.shop.repository.BucketRepository;
+import com.andersenlab.shop.repository.UserCredentialsRepository;
+import com.andersenlab.shop.repository.UserProfileRepository;
 import com.andersenlab.shop.dto.UserCredentialsDto;
 import com.andersenlab.shop.dto.UserProfileDto;
 import com.andersenlab.shop.model.Bucket;
 import com.andersenlab.shop.model.UserCredentials;
 import com.andersenlab.shop.model.UserProfile;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IUserService;
+import com.andersenlab.shop.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,11 +24,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserServiceAdmin implements IUserService {
+public class UserServiceAdminImpl implements UserService {
 
-    IUserProfileDao userProfileDao;
-    IBucketDao bucketDao;
-    IUserCredentialsDao userCredentialsDao;
+    UserProfileRepository userProfileDao;
+    BucketRepository bucketDao;
+    UserCredentialsRepository userCredentialsDao;
     ExtendedModelMapper modelMapper;
     PasswordEncoder passwordEncoder;
 
@@ -44,6 +45,7 @@ public class UserServiceAdmin implements IUserService {
         return modelMapper.map(userProfileDao.findById(id), UserProfileDto.class);
     }
 
+    @Transactional
     @Logging
     @Override
     public void create(UserProfileDto userProfileDto) {
@@ -92,6 +94,7 @@ public class UserServiceAdmin implements IUserService {
         userCredentialsDao.save(modelMapper.map(userCredentials, UserCredentials.class));
     }
 
+    @Transactional
     @Logging
     @Override
     public void delete(UserProfileDto userProfileDto) {

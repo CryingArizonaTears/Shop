@@ -3,7 +3,7 @@ package com.andersenlab.shop.controller.admin;
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.BucketDto;
 import com.andersenlab.shop.dto.ProductDto;
-import com.andersenlab.shop.service.IBucketService;
+import com.andersenlab.shop.service.BucketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +11,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/admin/bucket")
+@RequestMapping(value = "/admin/buckets")
 public class BucketControllerAdmin {
 
     @Autowired
-    public BucketControllerAdmin(@Qualifier("bucketServiceAdmin") IBucketService bucketService) {
+    public BucketControllerAdmin(@Qualifier("bucketServiceAdmin") BucketService bucketService) {
         this.bucketService = bucketService;
     }
 
-    private final IBucketService bucketService;
+    private final BucketService bucketService;
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")

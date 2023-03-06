@@ -4,7 +4,7 @@ import com.andersenlab.shop.dto.RoleDto;
 
 import java.util.List;
 
-public interface IRoleService {
+public interface RoleService {
 
     List<RoleDto> getAll();
 

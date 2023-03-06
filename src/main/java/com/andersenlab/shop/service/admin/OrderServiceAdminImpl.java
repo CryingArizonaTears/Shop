@@ -1,15 +1,15 @@
 package com.andersenlab.shop.service.admin;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IBucketDao;
-import com.andersenlab.shop.dao.ICurrencyDao;
-import com.andersenlab.shop.dao.IOrderDao;
+import com.andersenlab.shop.repository.BucketRepository;
+import com.andersenlab.shop.repository.CurrencyRepository;
+import com.andersenlab.shop.repository.OrderRepository;
 import com.andersenlab.shop.dto.OrderDto;
 import com.andersenlab.shop.model.Bucket;
 import com.andersenlab.shop.model.Currency;
 import com.andersenlab.shop.model.Order;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IOrderService;
+import com.andersenlab.shop.service.OrderService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,12 +23,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class OrderServiceAdmin implements IOrderService {
+public class OrderServiceAdminImpl implements OrderService {
 
-    IOrderDao orderDao;
+    OrderRepository orderDao;
     ExtendedModelMapper modelMapper;
-    IBucketDao bucketDao;
-    ICurrencyDao currencyDao;
+    BucketRepository bucketDao;
+    CurrencyRepository currencyDao;
 
     @Logging
     @Override

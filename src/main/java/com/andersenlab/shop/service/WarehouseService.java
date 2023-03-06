@@ -4,7 +4,7 @@ import com.andersenlab.shop.dto.WarehouseDto;
 
 import java.util.List;
 
-public interface IWarehouseService {
+public interface WarehouseService {
 
     List<WarehouseDto> getAll();
     WarehouseDto getById(Long id);

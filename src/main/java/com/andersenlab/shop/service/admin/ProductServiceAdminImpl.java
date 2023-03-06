@@ -1,11 +1,11 @@
 package com.andersenlab.shop.service.admin;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IProductDao;
+import com.andersenlab.shop.repository.ProductRepository;
 import com.andersenlab.shop.dto.ProductDto;
 import com.andersenlab.shop.model.Product;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IProductService;
+import com.andersenlab.shop.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class ProductServiceAdmin implements IProductService {
+public class ProductServiceAdminImpl implements ProductService {
 
-    IProductDao productDao;
+    ProductRepository productDao;
     ExtendedModelMapper modelMapper;
 
     @Logging

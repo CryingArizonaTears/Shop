@@ -1,11 +1,11 @@
 package com.andersenlab.shop.service.admin;
 
 import com.andersenlab.shop.annotation.Logging;
-import com.andersenlab.shop.dao.IWarehouseDao;
+import com.andersenlab.shop.repository.WarehouseRepository;
 import com.andersenlab.shop.dto.WarehouseDto;
 import com.andersenlab.shop.model.Warehouse;
 import com.andersenlab.shop.modelMapperMethods.ExtendedModelMapper;
-import com.andersenlab.shop.service.IWarehouseService;
+import com.andersenlab.shop.service.WarehouseService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class WarehouseService implements IWarehouseService {
+public class WarehouseServiceImpl implements WarehouseService {
 
-    IWarehouseDao warehouseDao;
+    WarehouseRepository warehouseDao;
     ExtendedModelMapper modelMapper;
 
     @Logging
