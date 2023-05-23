@@ -27,9 +27,9 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService {
 
-    OrderRepository orderDao;
+    OrderRepository orderRepository;
     ExtendedModelMapper modelMapper;
-    CurrencyRepository currencyDao;
+    CurrencyRepository currencyRepository;
     UserAuthenticationService userAuthenticationService;
 
     @Logging
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> getAllByUserId(Long id) {
         UserProfileDto currentUser = userAuthenticationService.getCurrent();
-        List<Order> orders = orderDao.getAllByUserProfileId(currentUser.getId());
+        List<Order> orders = orderRepository.getAllByUserProfileId(currentUser.getId());
         return modelMapper.mapList(orders, OrderDto.class);
     }
 
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getById(Long id) {
         UserProfileDto currentUser = userAuthenticationService.getCurrent();
-        List<Order> orders = orderDao.getAllByUserProfileId(currentUser.getId());
+        List<Order> orders = orderRepository.getAllByUserProfileId(currentUser.getId());
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getId().equals(id)) {
                 return modelMapper.map(orders.get(i), OrderDto.class);
@@ -70,14 +70,14 @@ public class OrderServiceImpl implements OrderService {
             totalPrice = totalPrice.add(userBucket.getProducts().get(i).getPrice());
         }
         if (orderDto.getCurrencyDto() != null) {
-            Optional<Currency> currency = currencyDao.findById(orderDto.getCurrencyDto().getId());
+            Optional<Currency> currency = currencyRepository.findById(orderDto.getCurrencyDto().getId());
             totalPrice = totalPrice.multiply(currency.get().getMultiplier());
         }
         orderDto.setTotalPrice(totalPrice);
         orderDto.setProcessed(false);
         orderDto.setDate(LocalDate.now());
         orderDto.setId(null);
-        orderDao.save(modelMapper.map(orderDto, Order.class));
+        orderRepository.save(modelMapper.map(orderDto, Order.class));
     }
 
     @Logging

@@ -17,7 +17,7 @@ import java.util.List;
 public class UserControllerAdmin {
 
     @Autowired
-    public UserControllerAdmin(@Qualifier("userServiceAdmin") UserService userService) {
+    public UserControllerAdmin(@Qualifier("userServiceAdminImpl") UserService userService) {
         this.userService = userService;
     }
 

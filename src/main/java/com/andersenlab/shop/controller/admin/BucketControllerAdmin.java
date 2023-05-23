@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class BucketControllerAdmin {
 
     @Autowired
-    public BucketControllerAdmin(@Qualifier("bucketServiceAdmin") BucketService bucketService) {
+    public BucketControllerAdmin(@Qualifier("bucketServiceAdminImpl") BucketService bucketService) {
         this.bucketService = bucketService;
     }
 

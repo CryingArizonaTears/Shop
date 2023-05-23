@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderControllerAdmin {
 
     @Autowired
-    public OrderControllerAdmin(@Qualifier("orderServiceAdmin") OrderService orderService) {
+    public OrderControllerAdmin(@Qualifier("orderServiceAdminImpl") OrderService orderService) {
         this.orderService = orderService;
     }
 

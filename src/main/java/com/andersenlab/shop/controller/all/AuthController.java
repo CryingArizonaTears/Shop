@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    public AuthController(@Qualifier("userService") UserService userService, UserAuthenticationService userAuthenticationService, TokenProvider tokenprovider) {
+    public AuthController(@Qualifier("userServiceImpl") UserService userService, UserAuthenticationService userAuthenticationService, TokenProvider tokenprovider) {
         this.userService = userService;
         this.userAuthenticationService = userAuthenticationService;
         this.tokenProvider = tokenprovider;

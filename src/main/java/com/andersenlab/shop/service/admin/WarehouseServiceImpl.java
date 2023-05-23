@@ -18,37 +18,37 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WarehouseServiceImpl implements WarehouseService {
 
-    WarehouseRepository warehouseDao;
+    WarehouseRepository warehouseRepository;
     ExtendedModelMapper modelMapper;
 
     @Logging
     @Override
     public List<WarehouseDto> getAll() {
-        List<Warehouse> warehouses = (List<Warehouse>) warehouseDao.findAll();
+        List<Warehouse> warehouses = (List<Warehouse>) warehouseRepository.findAll();
         return modelMapper.mapList(warehouses, WarehouseDto.class);
     }
 
     @Logging
     @Override
     public WarehouseDto getById(Long id) {
-        return modelMapper.map(warehouseDao.findById(id), WarehouseDto.class);
+        return modelMapper.map(warehouseRepository.findById(id), WarehouseDto.class);
     }
 
     @Logging
     @Override
     public void create(WarehouseDto warehouseDto) {
-        warehouseDao.save(modelMapper.map(warehouseDto, Warehouse.class));
+        warehouseRepository.save(modelMapper.map(warehouseDto, Warehouse.class));
     }
 
     @Logging
     @Override
     public void edit(WarehouseDto warehouseDto) {
-        warehouseDao.save(modelMapper.map(warehouseDto, Warehouse.class));
+        warehouseRepository.save(modelMapper.map(warehouseDto, Warehouse.class));
     }
 
     @Logging
     @Override
     public void delete(WarehouseDto warehouseDto) {
-        warehouseDao.delete(modelMapper.map(warehouseDto, Warehouse.class));
+        warehouseRepository.delete(modelMapper.map(warehouseDto, Warehouse.class));
     }
 }

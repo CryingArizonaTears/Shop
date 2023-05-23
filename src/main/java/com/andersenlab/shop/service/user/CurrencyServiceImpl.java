@@ -18,13 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
 
-    CurrencyRepository currencyDao;
+    CurrencyRepository currencyRepository;
     ExtendedModelMapper modelMapper;
 
     @Logging
     @Override
     public List<CurrencyDto> getAll() {
-        List<Currency> currencies = (List<Currency>) currencyDao.findAll();
+        List<Currency> currencies = (List<Currency>) currencyRepository.findAll();
         return modelMapper.mapList(currencies, CurrencyDto.class);
     }
 

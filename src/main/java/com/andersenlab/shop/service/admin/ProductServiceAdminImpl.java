@@ -18,26 +18,26 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceAdminImpl implements ProductService {
 
-    ProductRepository productDao;
+    ProductRepository productRepository;
     ExtendedModelMapper modelMapper;
 
     @Logging
     @Override
     public List<ProductDto> getAll() {
-        List<Product> products = (List<Product>) productDao.findAll();
+        List<Product> products = (List<Product>) productRepository.findAll();
         return modelMapper.mapList(products, ProductDto.class);
     }
 
     @Logging
     @Override
     public ProductDto getById(Long id) {
-        return modelMapper.map(productDao.findById(id), ProductDto.class);
+        return modelMapper.map(productRepository.findById(id), ProductDto.class);
     }
 
     @Logging
     @Override
     public void create(ProductDto productDto) {
-        productDao.save(modelMapper.map(productDto, Product.class));
+        productRepository.save(modelMapper.map(productDto, Product.class));
     }
 
     @Logging
@@ -59,12 +59,12 @@ public class ProductServiceAdminImpl implements ProductService {
         if (productDto.getWarehouseDto() != null) {
             product.setWarehouseDto(productDto.getWarehouseDto());
         }
-        productDao.save(modelMapper.map(product, Product.class));
+        productRepository.save(modelMapper.map(product, Product.class));
     }
 
     @Logging
     @Override
     public void delete(ProductDto productDto) {
-        productDao.delete(modelMapper.map(productDto, Product.class));
+        productRepository.delete(modelMapper.map(productDto, Product.class));
     }
 }

@@ -25,46 +25,46 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceAdminImpl implements OrderService {
 
-    OrderRepository orderDao;
+    OrderRepository orderRepository;
     ExtendedModelMapper modelMapper;
-    BucketRepository bucketDao;
-    CurrencyRepository currencyDao;
+    BucketRepository bucketRepository;
+    CurrencyRepository currencyRepository;
 
     @Logging
     @Override
     public List<OrderDto> getAll() {
-        List<Order> orders = (List<Order>) orderDao.findAll();
+        List<Order> orders = (List<Order>) orderRepository.findAll();
         return modelMapper.mapList(orders, OrderDto.class);
     }
 
     @Logging
     @Override
     public List<OrderDto> getAllByUserId(Long id) {
-        List<Order> orders = orderDao.getAllByUserProfileId(id);
+        List<Order> orders = orderRepository.getAllByUserProfileId(id);
         return modelMapper.mapList(orders, OrderDto.class);
     }
 
     @Logging
     @Override
     public OrderDto getById(Long id) {
-        return modelMapper.map(orderDao.findById(id), OrderDto.class);
+        return modelMapper.map(orderRepository.findById(id), OrderDto.class);
     }
 
     @Logging
     @SneakyThrows
     @Override
     public void create(OrderDto orderDto) {
-        Optional<Bucket> bucket = bucketDao.findById(orderDto.getUserProfileDto().getId());
+        Optional<Bucket> bucket = bucketRepository.findById(orderDto.getUserProfileDto().getId());
         BigDecimal totalPrice = BigDecimal.valueOf(0);
         for (int i = 0; i < bucket.get().getProducts().size(); i++) {
             totalPrice = totalPrice.add(bucket.get().getProducts().get(i).getPrice());
         }
         if (orderDto.getCurrencyDto() != null) {
-            Optional<Currency> currency = currencyDao.findById(orderDto.getCurrencyDto().getId());
+            Optional<Currency> currency = currencyRepository.findById(orderDto.getCurrencyDto().getId());
             totalPrice = totalPrice.multiply(currency.get().getMultiplier());
         }
         orderDto.setTotalPrice(totalPrice);
-        orderDao.save(modelMapper.map(orderDto, Order.class));
+        orderRepository.save(modelMapper.map(orderDto, Order.class));
     }
 
     @Logging
@@ -78,7 +78,7 @@ public class OrderServiceAdminImpl implements OrderService {
             order.setProducts(orderDto.getProducts());
         }
         if (orderDto.getCurrencyDto() != null) {
-            Optional<Currency> currency = currencyDao.findById(orderDto.getCurrencyDto().getId());
+            Optional<Currency> currency = currencyRepository.findById(orderDto.getCurrencyDto().getId());
             order.setCurrencyDto(orderDto.getCurrencyDto());
             order.setTotalPrice(currency.get().getMultiplier().multiply(order.getTotalPrice()));
         }
@@ -91,12 +91,12 @@ public class OrderServiceAdminImpl implements OrderService {
         if (orderDto.getTotalPrice() != null) {
             order.setTotalPrice(orderDto.getTotalPrice());
         }
-        orderDao.save(modelMapper.map(order, Order.class));
+        orderRepository.save(modelMapper.map(order, Order.class));
     }
 
     @Logging
     @Override
     public void delete(OrderDto orderDto) {
-        orderDao.delete(modelMapper.map(orderDto, Order.class));
+        orderRepository.delete(modelMapper.map(orderDto, Order.class));
     }
 }

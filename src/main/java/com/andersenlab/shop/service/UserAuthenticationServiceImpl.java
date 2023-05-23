@@ -22,8 +22,8 @@ import org.springframework.util.ObjectUtils;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserAuthenticationServiceImpl implements UserAuthenticationService {
 
-    UserProfileRepository userProfileDao;
-    UserCredentialsRepository userCredentialsDao;
+    UserProfileRepository userProfileRepository;
+    UserCredentialsRepository userCredentialsRepository;
     ModelMapper modelMapper;
     PasswordEncoder passwordEncoder;
 
@@ -38,9 +38,9 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     @Logging
     @Override
     public UserProfileDto getByUsername(String username) {
-        UserCredentials userCredentials = userCredentialsDao.getByUsername(username);
+        UserCredentials userCredentials = userCredentialsRepository.getByUsername(username);
         if (!ObjectUtils.isEmpty(userCredentials)) {
-            return modelMapper.map(userProfileDao.findById(userCredentials.getId()).get(), UserProfileDto.class);
+            return modelMapper.map(userProfileRepository.findById(userCredentials.getId()).get(), UserProfileDto.class);
         }
         throw new UsernameNotFoundException("Пользователь не найден");
     }

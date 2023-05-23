@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserControllerUser {
 
     @Autowired
-    public UserControllerUser(@Qualifier("userService") UserService userService) {
+    public UserControllerUser(@Qualifier("userServiceImpl") UserService userService) {
         this.userService = userService;
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductControllerAdmin {
 
     @Autowired
-    public ProductControllerAdmin(@Qualifier("productServiceAdmin") ProductService productService) {
+    public ProductControllerAdmin(@Qualifier("productServiceAdminImpl") ProductService productService) {
         this.productService = productService;
     }
 

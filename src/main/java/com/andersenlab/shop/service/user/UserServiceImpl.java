@@ -29,9 +29,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
     static final String BASED_USER_ROLE_NAME = "ROLE_USER";
-    UserProfileRepository userProfileDao;
-    BucketRepository bucketDao;
-    UserCredentialsRepository userCredentialsDao;
+    UserProfileRepository userProfileRepository;
+    BucketRepository bucketRepository;
+    UserCredentialsRepository userCredentialsRepository;
     ModelMapper modelMapper;
     UserAuthenticationService authenticationService;
     RoleService roleService;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Logging
     @Override
     public UserProfileDto getById(Long id) {
-        return modelMapper.map(userProfileDao.findById(authenticationService.getCurrent().getId()).get(), UserProfileDto.class);
+        return modelMapper.map(userProfileRepository.findById(authenticationService.getCurrent().getId()).get(), UserProfileDto.class);
     }
 
     @Transactional
@@ -59,14 +59,14 @@ public class UserServiceImpl implements UserService {
         UserCredentials userCredentials = new UserCredentials();
         Bucket bucket = new Bucket();
         bucket.setTotalPrice(BigDecimal.valueOf(0));
-        bucketDao.save(bucket);
+        bucketRepository.save(bucket);
         userCredentials.setId(null);
         userCredentials.setUsername(userProfileDto.getUserCredentialsDto().getUsername());
         userCredentials.setPassword(passwordEncoder.encode(userProfileDto.getUserCredentialsDto().getPassword()));
-        userCredentialsDao.save(userCredentials);
+        userCredentialsRepository.save(userCredentials);
         userProfile.setBucket(bucket);
         userProfile.setUserCredentials(userCredentials);
-        userProfileDao.save(userProfile);
+        userProfileRepository.save(userProfile);
     }
 
     @Logging
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         if (userProfileDto.getPhone() != null) {
             userProfile.setPhone(userProfileDto.getPhone());
         }
-        userProfileDao.save(modelMapper.map(userProfile, UserProfile.class));
+        userProfileRepository.save(modelMapper.map(userProfile, UserProfile.class));
     }
 
     @Logging
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
         if (userCredentialsDto.getPassword() != null) {
             userCredentials.setPassword(passwordEncoder.encode(userCredentialsDto.getPassword()));
         }
-        userCredentialsDao.save(modelMapper.map(userCredentials, UserCredentials.class));
+        userCredentialsRepository.save(modelMapper.map(userCredentials, UserCredentials.class));
     }
 
     @Logging

@@ -16,7 +16,7 @@ import java.util.List;
 public class CurrencyControllerAdmin {
 
     @Autowired
-    public CurrencyControllerAdmin(@Qualifier("currencyServiceAdmin") CurrencyService currencyService) {
+    public CurrencyControllerAdmin(@Qualifier("currencyServiceAdminImpl") CurrencyService currencyService) {
         this.currencyService = currencyService;
     }
 

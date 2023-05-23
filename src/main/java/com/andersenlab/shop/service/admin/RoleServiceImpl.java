@@ -18,43 +18,43 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoleServiceImpl implements RoleService {
 
-    RoleRepository roleDao;
+    RoleRepository roleRepository;
     ExtendedModelMapper modelMapper;
 
     @Logging
     @Override
     public List<RoleDto> getAll() {
-        List<Role> roles = (List<Role>) roleDao.findAll();
+        List<Role> roles = (List<Role>) roleRepository.findAll();
         return modelMapper.mapList(roles, RoleDto.class);
     }
 
     @Logging
     @Override
     public RoleDto getById(Long id) {
-        return modelMapper.map(roleDao.findById(id), RoleDto.class);
+        return modelMapper.map(roleRepository.findById(id), RoleDto.class);
     }
 
     @Logging
     @Override
     public RoleDto getByName(String name) {
-        return modelMapper.map(roleDao.getByName(name), RoleDto.class);
+        return modelMapper.map(roleRepository.getByName(name), RoleDto.class);
     }
 
     @Logging
     @Override
     public void create(RoleDto roleDto) {
-        roleDao.save(modelMapper.map(roleDto, Role.class));
+        roleRepository.save(modelMapper.map(roleDto, Role.class));
     }
 
     @Logging
     @Override
     public void edit(RoleDto roleDto) {
-        roleDao.save(modelMapper.map(roleDto, Role.class));
+        roleRepository.save(modelMapper.map(roleDto, Role.class));
     }
 
     @Logging
     @Override
     public void delete(RoleDto roleDto) {
-        roleDao.delete(modelMapper.map(roleDto, Role.class));
+        roleRepository.delete(modelMapper.map(roleDto, Role.class));
     }
 }

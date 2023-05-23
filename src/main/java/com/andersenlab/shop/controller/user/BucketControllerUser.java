@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class BucketControllerUser {
 
     @Autowired
-    public BucketControllerUser(@Qualifier("bucketService") BucketService bucketService) {
+    public BucketControllerUser(@Qualifier("bucketServiceImpl") BucketService bucketService) {
         this.bucketService = bucketService;
     }
 

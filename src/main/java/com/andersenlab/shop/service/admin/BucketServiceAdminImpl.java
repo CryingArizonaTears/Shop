@@ -17,30 +17,30 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BucketServiceAdminImpl implements BucketService {
-    BucketRepository bucketDao;
-    ProductRepository productDao;
+    BucketRepository bucketRepository;
+    ProductRepository productRepository;
     ExtendedModelMapper modelMapper;
 
     @Logging
     @Override
     public BucketDto getById(Long id) {
-        return modelMapper.map(bucketDao.findById(id), BucketDto.class);
+        return modelMapper.map(bucketRepository.findById(id), BucketDto.class);
     }
     @Logging
     @Override
     public void addProductToBucket(BucketDto bucketDto, ProductDto productDto) {
-        BucketDto bucket = modelMapper.map(bucketDao.findById(bucketDto.getId()), BucketDto.class);
-        ProductDto product = modelMapper.map(productDao.findById(productDto.getId()), ProductDto.class);
+        BucketDto bucket = modelMapper.map(bucketRepository.findById(bucketDto.getId()), BucketDto.class);
+        ProductDto product = modelMapper.map(productRepository.findById(productDto.getId()), ProductDto.class);
         bucket.getProducts().add(product);
-        bucketDao.save(modelMapper.map(bucket, Bucket.class));
+        bucketRepository.save(modelMapper.map(bucket, Bucket.class));
     }
 
     @Logging
     @Override
     public void deleteProductFromBucket(BucketDto bucketDto, ProductDto productDto) {
-        BucketDto bucket = modelMapper.map(bucketDao.findById(bucketDto.getId()), BucketDto.class);
-        ProductDto product = modelMapper.map(productDao.findById(productDto.getId()), ProductDto.class);
+        BucketDto bucket = modelMapper.map(bucketRepository.findById(bucketDto.getId()), BucketDto.class);
+        ProductDto product = modelMapper.map(productRepository.findById(productDto.getId()), ProductDto.class);
         bucket.getProducts().remove(product);
-        bucketDao.save(modelMapper.map(bucket, Bucket.class));
+        bucketRepository.save(modelMapper.map(bucket, Bucket.class));
     }
 }

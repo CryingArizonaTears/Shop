@@ -26,23 +26,23 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceAdminImpl implements UserService {
 
-    UserProfileRepository userProfileDao;
-    BucketRepository bucketDao;
-    UserCredentialsRepository userCredentialsDao;
+    UserProfileRepository userProfileRepository;
+    BucketRepository bucketRepository;
+    UserCredentialsRepository userCredentialsRepository;
     ExtendedModelMapper modelMapper;
     PasswordEncoder passwordEncoder;
 
     @Logging
     @Override
     public List<UserProfileDto> getAll() {
-        List<UserProfile> userProfiles = (List<UserProfile>) userProfileDao.findAll();
+        List<UserProfile> userProfiles = (List<UserProfile>) userProfileRepository.findAll();
         return modelMapper.mapList(userProfiles, UserProfileDto.class);
     }
 
     @Logging
     @Override
     public UserProfileDto getById(Long id) {
-        return modelMapper.map(userProfileDao.findById(id), UserProfileDto.class);
+        return modelMapper.map(userProfileRepository.findById(id), UserProfileDto.class);
     }
 
     @Transactional
@@ -52,11 +52,11 @@ public class UserServiceAdminImpl implements UserService {
         UserProfile userProfile = modelMapper.map(userProfileDto, UserProfile.class);
         Bucket bucket = new Bucket();
         bucket.setTotalPrice(BigDecimal.valueOf(0));
-        bucketDao.save(bucket);
+        bucketRepository.save(bucket);
         userProfile.getUserCredentials().setPassword(passwordEncoder.encode(userProfileDto.getUserCredentialsDto().getPassword()));
-        userCredentialsDao.save(modelMapper.map(userProfileDto, UserCredentials.class));
+        userCredentialsRepository.save(modelMapper.map(userProfileDto, UserCredentials.class));
         userProfile.setBucket(bucket);
-        userProfileDao.save(userProfile);
+        userProfileRepository.save(userProfile);
     }
 
     @Logging
@@ -78,7 +78,7 @@ public class UserServiceAdminImpl implements UserService {
         if (userProfileDto.getPhone() != null) {
             userProfile.setPhone(userProfileDto.getPhone());
         }
-        userProfileDao.save(modelMapper.map(userProfile, UserProfile.class));
+        userProfileRepository.save(modelMapper.map(userProfile, UserProfile.class));
     }
 
     @Logging
@@ -91,19 +91,19 @@ public class UserServiceAdminImpl implements UserService {
         if (userCredentialsDto.getPassword() != null) {
             userCredentials.setPassword(passwordEncoder.encode(userCredentialsDto.getPassword()));
         }
-        userCredentialsDao.save(modelMapper.map(userCredentials, UserCredentials.class));
+        userCredentialsRepository.save(modelMapper.map(userCredentials, UserCredentials.class));
     }
 
     @Transactional
     @Logging
     @Override
     public void delete(UserProfileDto userProfileDto) {
-        userProfileDao.delete(modelMapper.map(userProfileDto, UserProfile.class));
+        userProfileRepository.delete(modelMapper.map(userProfileDto, UserProfile.class));
         Bucket bucket = new Bucket();
         bucket.setId(userProfileDto.getId());
-        bucketDao.delete(bucket);
+        bucketRepository.delete(bucket);
         UserCredentials userCredentials = new UserCredentials();
         userCredentials.setId(userProfileDto.getId());
-        userCredentialsDao.delete(userCredentials);
+        userCredentialsRepository.delete(userCredentials);
     }
 }

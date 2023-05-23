@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class BucketServiceImpl implements BucketService {
-    BucketRepository bucketDao;
-    ProductRepository productDao;
+    BucketRepository bucketRepository;
+    ProductRepository productRepository;
     UserAuthenticationService userAuthenticationService;
     ExtendedModelMapper modelMapper;
 
@@ -28,26 +28,26 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public BucketDto getById(Long id) {
         UserProfileDto currentUser = userAuthenticationService.getCurrent();
-        return modelMapper.map(bucketDao.findById(currentUser.getId()), BucketDto.class);
+        return modelMapper.map(bucketRepository.findById(currentUser.getId()), BucketDto.class);
     }
 
     @Logging
     @Override
     public void addProductToBucket(BucketDto bucketDto, ProductDto productDto) {
         UserProfileDto currentUser = userAuthenticationService.getCurrent();
-        BucketDto bucket = modelMapper.map(bucketDao.findById(currentUser.getId()), BucketDto.class);
-        ProductDto product = modelMapper.map(productDao.findById(productDto.getId()), ProductDto.class);
+        BucketDto bucket = modelMapper.map(bucketRepository.findById(currentUser.getId()), BucketDto.class);
+        ProductDto product = modelMapper.map(productRepository.findById(productDto.getId()), ProductDto.class);
         bucket.getProducts().add(product);
-        bucketDao.save(modelMapper.map(bucket, Bucket.class));
+        bucketRepository.save(modelMapper.map(bucket, Bucket.class));
     }
 
     @Logging
     @Override
     public void deleteProductFromBucket(BucketDto bucketDto, ProductDto productDto) {
         UserProfileDto currentUser = userAuthenticationService.getCurrent();
-        BucketDto bucket = modelMapper.map(bucketDao.findById(currentUser.getId()), BucketDto.class);
-        ProductDto product = modelMapper.map(productDao.findById(productDto.getId()), ProductDto.class);
+        BucketDto bucket = modelMapper.map(bucketRepository.findById(currentUser.getId()), BucketDto.class);
+        ProductDto product = modelMapper.map(productRepository.findById(productDto.getId()), ProductDto.class);
         bucket.getProducts().remove(product);
-        bucketDao.save(modelMapper.map(bucket, Bucket.class));
+        bucketRepository.save(modelMapper.map(bucket, Bucket.class));
     }
 }
