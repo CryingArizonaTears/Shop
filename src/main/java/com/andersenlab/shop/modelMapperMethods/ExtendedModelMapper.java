@@ -15,4 +15,5 @@ public class ExtendedModelMapper extends ModelMapper {
                 .map(element -> super.map(element, targetClass))
                 .collect(Collectors.toList());
     }
+
 }

@@ -8,9 +8,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserProfileDto {
     Long id;
-    UserCredentialsDto userCredentialsDto;
-    BucketDto bucketDto;
-    RoleDto roleDto;
+    UserCredentialsDto userCredentials;
+    BucketDto bucket;
+    RoleDto role;
     String fullName;
     String address;
     String email;

@@ -12,10 +12,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDto {
     Long id;
-    UserProfileDto userProfileDto;
+    UserProfileDto userProfile;
     List<ProductDto> products;
     LocalDate date;
-    CurrencyDto currencyDto;
+    CurrencyDto currency;
     Boolean processed;
     BigDecimal totalPrice;
 }

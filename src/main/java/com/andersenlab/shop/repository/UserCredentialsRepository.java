@@ -4,7 +4,9 @@ import com.andersenlab.shop.model.UserCredentials;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserCredentialsRepository extends CrudRepository<UserCredentials, Long> {
-    UserCredentials getByUsername(String username);
+    Optional<UserCredentials> getByUsername(String username);
 }

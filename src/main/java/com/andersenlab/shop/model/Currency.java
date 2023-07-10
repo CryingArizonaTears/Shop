@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @Table(name = "currency")
-public class Currency extends AbstractModel{
+public class Currency extends AbstractModel {
     @Column(name = "id", nullable = false)
     Long id;
     @Column(name = "name", nullable = false)

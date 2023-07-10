@@ -1,22 +1,26 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.UserCredentialsDto;
-import com.andersenlab.shop.dto.UserProfileDto;
+import com.andersenlab.shop.model.UserCredentials;
+import com.andersenlab.shop.model.UserProfile;
 
 import java.util.List;
 
 
 public interface UserService {
 
-    List<UserProfileDto> getAll();
+    List<UserProfile> getAll();
 
-    UserProfileDto getById(Long id);
+    UserProfile getById(Long id);
 
-    void create(UserProfileDto userProfileDto);
+    UserProfile createAsGuest(UserProfile userProfile);
 
-    void editProfile(UserProfileDto userProfileDto);
+    UserProfile createAsAdmin(UserProfile userProfile);
 
-    void editCredentials(UserCredentialsDto userCredentialsDto);
+    UserProfile editProfileAsUser(UserProfile userProfile);
 
-    void delete(UserProfileDto userProfileDto);
+    UserProfile editProfileAsAdmin(UserProfile userProfile);
+
+    UserCredentials editCredentials(UserCredentials userCredentials);
+
+    void delete(Long id);
 }

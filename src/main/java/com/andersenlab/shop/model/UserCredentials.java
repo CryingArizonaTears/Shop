@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "user_credentials")
 @Data
-public class UserCredentials extends AbstractModel{
+public class UserCredentials extends AbstractModel {
     @Column(name = "id", nullable = false)
     Long id;
     @Column(name = "username", nullable = false, unique = true)

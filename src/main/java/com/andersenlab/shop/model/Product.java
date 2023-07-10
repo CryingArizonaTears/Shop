@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @Table(name = "product")
-public class Product extends AbstractModel{
+public class Product extends AbstractModel {
     @Column(name = "id", nullable = false)
     Long id;
     @Column(name = "name", nullable = false)
     String name;
-    @Column(name = "product_type", nullable = false)
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     ProductType productType;
     @Column(name = "price", nullable = false)

@@ -3,44 +3,54 @@ package com.andersenlab.shop.controller.user;
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.BucketDto;
 import com.andersenlab.shop.dto.ProductDto;
-import com.andersenlab.shop.service.BucketService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.andersenlab.shop.dto.UserProfileDto;
+import com.andersenlab.shop.facade.BucketFacade;
+import com.andersenlab.shop.facade.UserAuthFacade;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping(value = "/buckets")
 public class BucketControllerUser {
 
-    @Autowired
-    public BucketControllerUser(@Qualifier("bucketServiceImpl") BucketService bucketService) {
-        this.bucketService = bucketService;
-    }
-
-    private final BucketService bucketService;
+    BucketFacade bucketFacade;
+    UserAuthFacade userAuthFacade;
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping()
-    public ResponseEntity<BucketDto> getUserById() {
-        return ResponseEntity.ok(bucketService.getById(null));
+    public ResponseEntity<BucketDto> getBucketById() {
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(bucketFacade.getById(currentUser.getId()));
     }
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping()
-    public ResponseEntity<Void> addProductToBucket(@RequestBody BucketDto bucketDto, @RequestBody ProductDto productDto) {
-        bucketService.addProductToBucket(bucketDto, productDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<BucketDto> addProductToBucket(@RequestBody ProductDto productDto) {
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(bucketFacade.addProductToBucket(currentUser.getBucket().getId(), productDto));
     }
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PutMapping()
+    public ResponseEntity<BucketDto> deleteProductFromBucket(@RequestBody ProductDto productDto) {
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(bucketFacade.deleteProductFromBucket(currentUser.getBucket().getId(), productDto));
+    }
+
+    @Logging
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping()
-    public ResponseEntity<Void> deleteProductFromBucket(@RequestBody BucketDto bucketDto, @RequestBody ProductDto productDto) {
-        bucketService.deleteProductFromBucket(bucketDto, productDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<BucketDto> clearBucket() {
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(bucketFacade.clearBucket(currentUser.getBucket().getId()));
     }
 }

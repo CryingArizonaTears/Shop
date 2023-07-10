@@ -2,45 +2,54 @@ package com.andersenlab.shop.controller.user;
 
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.OrderDto;
-import com.andersenlab.shop.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.andersenlab.shop.dto.UserProfileDto;
+import com.andersenlab.shop.facade.OrderFacade;
+import com.andersenlab.shop.facade.UserAuthFacade;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping(value = "/orders")
 public class OrderControllerUser {
 
-    @Autowired
-    public OrderControllerUser(@Qualifier("orderServiceImpl") OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    private final OrderService orderService;
+    OrderFacade orderFacade;
+    UserAuthFacade userAuthFacade;
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping()
     public ResponseEntity<List<OrderDto>> getAllByUserId() {
-        return ResponseEntity.ok(orderService.getAllByUserId(null));
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(orderFacade.getAllByUserId(currentUser.getId()));
     }
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getById(id));
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        return ResponseEntity.ok(orderFacade.getById(currentUser.getId(), id));
     }
 
     @Logging
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody OrderDto orderDto) {
-        orderService.create(orderDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<OrderDto> create(@RequestBody OrderDto orderDto) {
+        UserProfileDto currentUser = userAuthFacade.getCurrent();
+        orderDto.setUserProfile(currentUser);
+        orderDto.setProcessed(false);
+        orderDto.setDate(LocalDate.now());
+        orderDto.setId(null);
+        return new ResponseEntity<>(orderFacade.create(orderDto), HttpStatus.CREATED);
     }
 }

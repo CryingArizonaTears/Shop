@@ -3,7 +3,9 @@ package com.andersenlab.shop.config;
 
 import com.andersenlab.shop.security.CustomUserDetailsService;
 import com.andersenlab.shop.security.filter.JwtFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @ComponentScan
 public class SecurityConfig {
 
-    @Autowired
-    private JwtFilter jwtFilter;
-    @Autowired
-    private CustomUserDetailsService jpaUserDetailsService;
+
+    JwtFilter jwtFilter;
+
+    CustomUserDetailsService jpaUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

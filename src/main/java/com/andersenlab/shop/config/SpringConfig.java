@@ -1,7 +1,9 @@
 package com.andersenlab.shop.config;
 
-import com.andersenlab.shop.converter.UserProfileToUserProfileDtoConverter;
+import com.andersenlab.shop.converter.UserProfileToCustomUserDetailsConverter;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +17,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan("com.andersenlab.shop")
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SpringConfig {
 
-    private final UserProfileToUserProfileDtoConverter userProfileToUserProfileDtoConverter;
+    UserProfileToCustomUserDetailsConverter userProfileToCustomUserDetailsConverter;
 
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.addConverter(userProfileToUserProfileDtoConverter);
+        modelMapper.addConverter(userProfileToCustomUserDetailsConverter);
         return modelMapper;
     }
 

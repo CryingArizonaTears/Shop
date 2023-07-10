@@ -1,18 +1,21 @@
 package com.andersenlab.shop.exceptionHandler;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class ApiException {
-    private String name;
-    private String message;
-    private Throwable throwable;
-    private HttpStatus httpStatus;
-    private LocalDateTime localDateTime;
+    String name;
+    String message;
+    Throwable throwable;
+    HttpStatus httpStatus;
+    LocalDateTime localDateTime;
 }

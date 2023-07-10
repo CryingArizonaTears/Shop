@@ -3,9 +3,11 @@ package com.andersenlab.shop.controller.admin;
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.UserCredentialsDto;
 import com.andersenlab.shop.dto.UserProfileDto;
-import com.andersenlab.shop.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.andersenlab.shop.facade.UserFacade;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,61 +15,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping(value = "/admin/users")
 public class UserControllerAdmin {
 
-    @Autowired
-    public UserControllerAdmin(@Qualifier("userServiceAdminImpl") UserService userService) {
-        this.userService = userService;
-    }
-
-    private final UserService userService;
+    UserFacade userFacade;
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserProfileDto>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+        return ResponseEntity.ok(userFacade.getAll());
     }
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserProfileDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getById(id));
+        return ResponseEntity.ok(userFacade.getById(id));
     }
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody UserProfileDto userProfileDto) {
-        userService.create(userProfileDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserProfileDto> create(@RequestBody UserProfileDto userProfileDto) {
+        return new ResponseEntity<>(userFacade.createAsAdmin(userProfileDto), HttpStatus.CREATED);
     }
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @PutMapping("/profile")
-    public ResponseEntity<Void> editProfile(@RequestBody UserProfileDto userProfileDto) {
-        userService.editProfile(userProfileDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserProfileDto> editProfile(@RequestBody UserProfileDto userProfileDto) {
+        return ResponseEntity.ok(userFacade.editProfileAsAdmin(userProfileDto));
     }
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @PutMapping("/credentials")
-    public ResponseEntity<Void> editCredentials(@RequestBody UserCredentialsDto userCredentialsDto) {
-        userService.editCredentials(userCredentialsDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserCredentialsDto> editCredentials(@RequestBody UserCredentialsDto userCredentialsDto) {
+        return ResponseEntity.ok(userFacade.editCredentials(userCredentialsDto));
     }
 
     @Logging
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        UserProfileDto userProfileDto = new UserProfileDto();
-        userProfileDto.setId(id);
-        userService.delete(userProfileDto);
-        return ResponseEntity.ok().build();
+        userFacade.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

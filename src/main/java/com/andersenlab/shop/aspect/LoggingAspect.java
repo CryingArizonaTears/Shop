@@ -25,7 +25,9 @@ public class LoggingAspect {
     @AfterReturning(value = "logging()", returning = "returningValue")
     public void loggingAfter(JoinPoint joinPoint, Object returningValue) {
         if (returningValue != null) {
-            LOG.info("Method: "
+            LOG.info("Class: "
+                    + joinPoint.getTarget().getClass().getSimpleName() +
+                    ", method: "
                     + joinPoint.getSignature().getName() +
                     ", выходящий: "
                     + returningValue);
@@ -35,7 +37,9 @@ public class LoggingAspect {
     @Before("logging()")
     public void loggingBefore(JoinPoint joinPoint) {
         if (joinPoint.getArgs() != null) {
-            LOG.info("Method: "
+            LOG.info("Class: "
+                    + joinPoint.getTarget().getClass().getSimpleName() +
+                    ", method: "
                     + joinPoint.getSignature().getName() +
                     ", входящий: "
                     + Arrays.toString(joinPoint.getArgs()));

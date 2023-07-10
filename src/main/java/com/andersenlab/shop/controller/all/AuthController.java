@@ -3,13 +3,12 @@ package com.andersenlab.shop.controller.all;
 import com.andersenlab.shop.annotation.Logging;
 import com.andersenlab.shop.dto.UserCredentialsDto;
 import com.andersenlab.shop.dto.UserProfileDto;
+import com.andersenlab.shop.facade.UserAuthFacade;
+import com.andersenlab.shop.facade.UserFacade;
 import com.andersenlab.shop.security.filter.TokenProvider;
-import com.andersenlab.shop.service.UserAuthenticationService;
-import com.andersenlab.shop.service.UserService;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,32 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping(value = "")
 public class AuthController {
 
-    @Autowired
-    public AuthController(@Qualifier("userServiceImpl") UserService userService, UserAuthenticationService userAuthenticationService, TokenProvider tokenprovider) {
-        this.userService = userService;
-        this.userAuthenticationService = userAuthenticationService;
-        this.tokenProvider = tokenprovider;
-    }
-
-    UserService userService;
-    UserAuthenticationService userAuthenticationService;
+    UserFacade userFacade;
+    UserAuthFacade userAuthFacade;
     TokenProvider tokenProvider;
 
     @Logging
     @PostMapping("/registration")
-    public ResponseEntity<Void> create(@RequestBody UserProfileDto userProfileDto) {
-        userService.create(userProfileDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserProfileDto> create(@RequestBody UserProfileDto userProfileDto) {
+        return ResponseEntity.ok(userFacade.createAsGuest(userProfileDto));
     }
 
     @Logging
     @PostMapping("/auth")
-    public ResponseEntity<String> logIn(@RequestBody UserCredentialsDto userDto) {
-        UserCredentialsDto userLogin = userAuthenticationService.getEncryptedUserCredentials(userDto);
+    public ResponseEntity<String> logIn(@RequestBody UserCredentialsDto UserCredentialsDto) {
+        UserCredentialsDto userLogin = userAuthFacade.getEncryptedUserCredentials(UserCredentialsDto);
         String token = tokenProvider.createToken(userLogin.getUsername());
         return ResponseEntity.ok(token);
     }

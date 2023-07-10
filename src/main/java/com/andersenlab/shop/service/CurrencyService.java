@@ -1,17 +1,18 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.CurrencyDto;
+import com.andersenlab.shop.model.Currency;
 
 import java.util.List;
 
 public interface CurrencyService {
 
-    List<CurrencyDto> getAll();
-    CurrencyDto getById(Long id);
+    List<Currency> getAll();
 
-    void create(CurrencyDto currencyDto);
+    Currency getById(Long id);
 
-    void edit(CurrencyDto currencyDto);
+    Currency create(Currency currency);
 
-    void delete(CurrencyDto currencyDto);
+    Currency edit(Currency currency);
+
+    void delete(Long id);
 }

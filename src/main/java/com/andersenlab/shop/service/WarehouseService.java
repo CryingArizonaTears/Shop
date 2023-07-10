@@ -1,17 +1,18 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.WarehouseDto;
+import com.andersenlab.shop.model.Warehouse;
 
 import java.util.List;
 
 public interface WarehouseService {
 
-    List<WarehouseDto> getAll();
-    WarehouseDto getById(Long id);
+    List<Warehouse> getAll();
 
-    void create(WarehouseDto warehouseDto);
+    Warehouse getById(Long id);
 
-    void edit(WarehouseDto warehouseDto);
+    Warehouse create(Warehouse warehouse);
 
-    void delete(WarehouseDto warehouseDto);
+    Warehouse edit(Warehouse warehouse);
+
+    void delete(Long id);
 }

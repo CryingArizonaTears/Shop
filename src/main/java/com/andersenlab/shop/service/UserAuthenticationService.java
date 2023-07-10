@@ -1,12 +1,12 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.UserCredentialsDto;
-import com.andersenlab.shop.dto.UserProfileDto;
+import com.andersenlab.shop.model.UserCredentials;
+import com.andersenlab.shop.model.UserProfile;
 
 public interface UserAuthenticationService {
-    UserProfileDto getCurrent();
+    UserProfile getCurrent();
 
-    UserProfileDto getByUsername(String username);
+    UserProfile getByUsername(String username);
 
-    UserCredentialsDto getEncryptedUserCredentials(UserCredentialsDto userCredentialsDto);
+    UserCredentials getEncryptedUserCredentials(UserCredentials userCredentials);
 }

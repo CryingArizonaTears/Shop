@@ -1,11 +1,15 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.BucketDto;
-import com.andersenlab.shop.dto.ProductDto;
+import com.andersenlab.shop.model.Bucket;
+import com.andersenlab.shop.model.Product;
 
 public interface BucketService {
 
-    BucketDto getById(Long id);
-    void addProductToBucket(BucketDto bucketDto, ProductDto productDto);
-    void deleteProductFromBucket(BucketDto bucketDto, ProductDto productDto);
+    Bucket getById(Long id);
+
+    Bucket addProductToBucket(Long id, Product product);
+
+    Bucket deleteProductFromBucket(Long id, Product product);
+
+    Bucket clearBucket(Long id);
 }

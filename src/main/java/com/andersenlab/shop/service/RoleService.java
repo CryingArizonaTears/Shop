@@ -1,20 +1,20 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.RoleDto;
+import com.andersenlab.shop.model.Role;
 
 import java.util.List;
 
 public interface RoleService {
 
-    List<RoleDto> getAll();
+    List<Role> getAll();
 
-    RoleDto getById(Long id);
+    Role getById(Long id);
 
-    RoleDto getByName(String name);
+    Role getByName(String name);
 
-    void create(RoleDto roleDto);
+    Role create(Role role);
 
-    void edit(RoleDto roleDto);
+    Role edit(Role role);
 
-    void delete(RoleDto roleDto);
+    void delete(Long id);
 }

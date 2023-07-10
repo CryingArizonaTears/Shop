@@ -19,6 +19,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return modelMapper.map(userAuthenticationService.getByUsername(username).getUserCredentialsDto(), CustomUserDetails.class);
+        return modelMapper.map(userAuthenticationService.getByUsername(username), CustomUserDetails.class);
     }
 }

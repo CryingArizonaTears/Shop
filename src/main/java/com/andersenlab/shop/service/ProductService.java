@@ -1,17 +1,18 @@
 package com.andersenlab.shop.service;
 
-import com.andersenlab.shop.dto.ProductDto;
+import com.andersenlab.shop.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDto> getAll();
-    ProductDto getById(Long id);
+    List<Product> getAll();
 
-    void create(ProductDto productDto);
+    Product getById(Long id);
 
-    void edit(ProductDto productDto);
+    Product create(Product product);
 
-    void delete(ProductDto productDto);
+    Product edit(Product product);
+
+    void delete(Long id);
 }

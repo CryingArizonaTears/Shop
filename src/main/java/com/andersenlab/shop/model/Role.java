@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "role")
 @Data
-public class Role extends AbstractModel{
+public class Role extends AbstractModel {
     @Column(name = "id", nullable = false)
     Long id;
     @Column(name = "name", nullable = false, unique = true)

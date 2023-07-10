@@ -15,5 +15,5 @@ public class ProductDto {
     ProductType productType;
     BigDecimal price;
     Integer expDate;
-    WarehouseDto warehouseDto;
+    WarehouseDto warehouse;
 }
