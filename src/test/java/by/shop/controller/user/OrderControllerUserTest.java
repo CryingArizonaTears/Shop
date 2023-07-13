@@ -198,7 +198,7 @@ class OrderControllerUserTest {
 
     @Test
     void testCreate_Successful() {
-        when(orderFacade.create(any()))
+        when(orderFacade.createAsUser(any()))
                 .thenReturn(orderDtoForTesting);
         installSpecification(requestSpecification(URI, AUTHORIZATION, TOKEN), responseSpecification(201));
         OrderDto expectedOrderDto = given()

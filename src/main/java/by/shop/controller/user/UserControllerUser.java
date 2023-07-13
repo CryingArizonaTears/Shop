@@ -21,7 +21,6 @@ public class UserControllerUser {
     UserFacade userFacade;
     UserAuthFacade userAuthFacade;
 
-
     @Logging
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping()

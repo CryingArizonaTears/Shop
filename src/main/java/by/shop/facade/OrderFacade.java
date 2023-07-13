@@ -12,7 +12,9 @@ public interface OrderFacade {
 
     OrderDto getById(Long userId, Long id);
 
-    OrderDto create(OrderDto orderDto);
+    OrderDto createAsAdmin(OrderDto orderDto);
+
+    OrderDto createAsUser(OrderDto orderDto);
 
     OrderDto edit(OrderDto orderDto);
 

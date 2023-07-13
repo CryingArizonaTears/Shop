@@ -4,10 +4,6 @@ import by.shop.dto.*;
 import by.shop.facade.UserAuthFacade;
 import by.shop.facade.UserFacade;
 import by.shop.model.ProductType;
-import by.shop.model.Role;
-import by.shop.model.UserCredentials;
-import by.shop.model.UserProfile;
-import by.shop.security.CustomUserDetails;
 import by.shop.security.CustomUserDetailsService;
 import by.shop.security.filter.TokenProvider;
 import lombok.AccessLevel;
@@ -16,8 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
@@ -45,8 +39,6 @@ class AuthControllerTest {
     TokenProvider tokenProvider;
     @MockBean
     CustomUserDetailsService customUserDetailsService;
-    @Autowired
-    ModelMapper modelMapper;
     final String TOKEN = "null";
     final String AUTHORIZATION = "null";
     final String URI = "";
@@ -90,23 +82,12 @@ class AuthControllerTest {
             "password": "testPassword",
             "username": "testUsername"
             }""";
-    List<UserProfileDto> userProfileDtosListForTesting;
     final UserProfileDto userProfileDtoForTesting = new UserProfileDto();
     final UserCredentialsDto userCredentialsDtoForTesting = new UserCredentialsDto();
 
 
     @BeforeEach
     void beforeTests() {
-        UserProfile userProfileAdmin = new UserProfile();
-        UserCredentials userCredentialsAdmin = new UserCredentials();
-        userCredentialsAdmin.setPassword("admin");
-        userCredentialsAdmin.setUsername("admin");
-        userProfileAdmin.setUserCredentials(userCredentialsAdmin);
-        Role roleAdmin = new Role();
-        roleAdmin.setId(1L);
-        roleAdmin.setName("ROLE_ADMIN");
-        userProfileAdmin.setRole(roleAdmin);
-        CustomUserDetails customUserDetailsAdmin = modelMapper.map(userProfileAdmin, CustomUserDetails.class);
         userCredentialsDtoForTesting.setId(1L);
         userCredentialsDtoForTesting.setUsername("testUsername");
         WarehouseDto warehouseDtoForTesting = new WarehouseDto();
@@ -133,9 +114,6 @@ class AuthControllerTest {
         userProfileDtoForTesting.setAddress("testAddress");
         userProfileDtoForTesting.setEmail("testEmail");
         userProfileDtoForTesting.setId(1L);
-        userProfileDtosListForTesting = List.of(userProfileDtoForTesting);
-//        when(tokenProvider.validateToken(anyString())).thenReturn(true);
-//        when(customUserDetailsService.loadUserByUsername(any())).thenReturn(customUserDetailsAdmin);
     }
 
     @Test

@@ -46,7 +46,7 @@ public class OrderControllerAdmin {
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<OrderDto> create(@RequestBody OrderDto orderDto) {
-        return new ResponseEntity<>(orderFacade.create(orderDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderFacade.createAsAdmin(orderDto), HttpStatus.CREATED);
     }
 
     @Logging

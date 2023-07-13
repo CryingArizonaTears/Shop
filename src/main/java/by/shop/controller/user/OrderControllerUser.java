@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,9 +46,6 @@ public class OrderControllerUser {
     public ResponseEntity<OrderDto> create(@RequestBody OrderDto orderDto) {
         UserProfileDto currentUser = userAuthFacade.getCurrent();
         orderDto.setUserProfile(currentUser);
-        orderDto.setProcessed(false);
-        orderDto.setDate(LocalDate.now());
-        orderDto.setId(null);
-        return new ResponseEntity<>(orderFacade.create(orderDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(orderFacade.createAsUser(orderDto), HttpStatus.CREATED);
     }
 }

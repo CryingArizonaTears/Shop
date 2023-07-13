@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,16 +55,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Logging
     @Override
-    public Order create(Order order) {
-        BigDecimal totalPrice = order.getUserProfile().getBucket().getTotalPrice();
-        List<Product> products = order.getUserProfile().getBucket().getProducts();
-        if (order.getCurrency() != null) {
-            Currency currency = currencyService.getById(order.getCurrency().getId());
-            totalPrice = totalPrice.multiply(currency.getMultiplier());
-        }
-        order.setTotalPrice(totalPrice);
-        order.setProducts(products);
-        return orderRepository.save(order);
+    public Order createAsAdmin(Order order) {
+        Order orderForSave = fillOrderData(order);
+        return orderRepository.save(orderForSave);
+    }
+
+    @Logging
+    @Override
+    public Order createAsUser(Order order) {
+        order.setProcessed(false);
+        order.setDate(LocalDate.now());
+        order.setId(null);
+        Order orderForSave = fillOrderData(order);
+        return orderRepository.save(orderForSave);
     }
 
     @Logging
@@ -99,5 +103,17 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Long id) {
         Order existingOrder = getById(null, id);
         orderRepository.delete(existingOrder);
+    }
+
+    private Order fillOrderData(Order order) {
+        BigDecimal totalPrice = order.getUserProfile().getBucket().getTotalPrice();
+        List<Product> products = order.getUserProfile().getBucket().getProducts();
+        if (order.getCurrency() != null) {
+            Currency currency = currencyService.getById(order.getCurrency().getId());
+            totalPrice = totalPrice.multiply(currency.getMultiplier());
+        }
+        order.setTotalPrice(totalPrice);
+        order.setProducts(products);
+        return order;
     }
 }

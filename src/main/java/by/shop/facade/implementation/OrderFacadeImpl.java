@@ -45,8 +45,17 @@ public class OrderFacadeImpl implements OrderFacade {
     @Logging
     @Override
     @Transactional
-    public OrderDto create(OrderDto orderDto) {
-        OrderDto retOrderDto = modelMapper.map(orderService.create(modelMapper.map(orderDto, Order.class)), OrderDto.class);
+    public OrderDto createAsAdmin(OrderDto orderDto) {
+        OrderDto retOrderDto = modelMapper.map(orderService.createAsAdmin(modelMapper.map(orderDto, Order.class)), OrderDto.class);
+        bucketService.clearBucket(orderDto.getUserProfile().getBucket().getId());
+        return retOrderDto;
+    }
+
+    @Logging
+    @Override
+    @Transactional
+    public OrderDto createAsUser(OrderDto orderDto) {
+        OrderDto retOrderDto = modelMapper.map(orderService.createAsAdmin(modelMapper.map(orderDto, Order.class)), OrderDto.class);
         bucketService.clearBucket(orderDto.getUserProfile().getBucket().getId());
         return retOrderDto;
     }

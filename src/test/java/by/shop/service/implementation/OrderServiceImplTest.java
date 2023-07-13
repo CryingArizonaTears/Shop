@@ -114,17 +114,34 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testCreate_Successful() {
+    void testCreateAsAdmin_Successful() {
         List<Product> expectingProducts = new ArrayList<>(orderForTesting.getProducts());
         when(currencyService.getById(any()))
                 .thenReturn(currencyForTesting);
-        orderService.create(orderForTesting);
+        orderService.createAsAdmin(orderForTesting);
         verify(orderRepository).save(argThat(orderForSave ->
                 orderForSave.getProducts().equals(expectingProducts) &&
                         orderForSave.getCurrency().getMultiplier().equals(BigDecimal.valueOf(2)) &&
                         orderForSave.getDate().equals(LocalDate.of(2023, 07, 03)) &&
                         orderForSave.getTotalPrice().equals(BigDecimal.valueOf(4))));
     }
+
+
+    @Test
+    void testCreateAsUser_Successful() {
+        List<Product> expectingProducts = new ArrayList<>(orderForTesting.getProducts());
+        when(currencyService.getById(any()))
+                .thenReturn(currencyForTesting);
+        orderService.createAsUser(orderForTesting);
+        verify(orderRepository).save(argThat(orderForSave ->
+                orderForSave.getProducts().equals(expectingProducts) &&
+                        orderForSave.getCurrency().getMultiplier().equals(BigDecimal.valueOf(2)) &&
+                        orderForSave.getDate().equals(LocalDate.now()) &&
+                        orderForSave.getId() == (null) &&
+                        orderForSave.getProcessed().equals(false) &&
+                        orderForSave.getTotalPrice().equals(BigDecimal.valueOf(4))));
+    }
+
 
     @Test
     void testEdit_Successful() {

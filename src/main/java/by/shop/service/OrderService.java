@@ -12,7 +12,9 @@ public interface OrderService {
 
     Order getById(Long userId, Long id);
 
-    Order create(Order order);
+    Order createAsAdmin(Order order);
+
+    Order createAsUser(Order order);
 
     Order edit(Order order);
 
