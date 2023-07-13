@@ -206,7 +206,7 @@ class OrderControllerAdminTest {
 
     @Test
     void testCreate_Successful() {
-        when(orderFacade.create(any()))
+        when(orderFacade.createAsAdmin(any()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
         installSpecification(requestSpecification(URI, AUTHORIZATION, TOKEN), responseSpecification(201));
         OrderDto expectedOrderDto = given()
